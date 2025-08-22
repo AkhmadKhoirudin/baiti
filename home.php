@@ -23,7 +23,7 @@
       
       <!-- Bagian Logo -->
       <div class="col-md-6 text-center">
-        <img src="https://media.canva.com/v2/image-resize/format:JPG/height:800/quality:92/uri:ifs%3A%2F%2FM%2Fec183fca-6320-486a-b040-5112c98da034/watermark:F/width:738?csig=AAAAAAAAAAAAAAAAAAAAAO1L3u8lrVzrID1-4cBjizrHIyP-UV1REJbGTEvRa2NV&exp=1755227852&osig=AAAAAAAAAAAAAAAAAAAAAEQ-TMoI_iHLR7t9aaFcAJUdkyqCl2fwbb2FeMm7a0wv&signer=media-rpc&x-canva-quality=screen" 
+        <img src="width_738.jpg" 
              alt="Logo TPQ Al-Muqoyyim" 
              class="img-fluid" style="max-width: 300px;">
       </div>

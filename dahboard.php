@@ -15,16 +15,21 @@ include_once 'db.php';
             --mobile-breakpoint: 768px;
         }
         
-        body { 
-            background-color: #f5f7fa; 
-            overflow-x: hidden;
+      html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
         }
         
         /* Sidebar styling */
         .sidebar {
             background-color: #fff;
             height: 100vh;
-            padding: 20px;
+            padding: 32px 24px 32px 24px; /* lebih lebar dan napas */
             border-right: 1px solid #ddd;
             overflow-y: auto;
             position: fixed;
@@ -33,6 +38,64 @@ include_once 'db.php';
             transition: transform 0.3s ease;
         }
         
+        /* Spasi antar item menu sidebar */
+        .sidebar .accordion-item {
+            margin-bottom: 18px; /* lebih rapih antar section accordion */
+        }
+        .accordion-body{
+
+            margin: 2px 0 0 0;
+        }
+
+        /* Spasi antar link di submenu */
+        .submenu .nav-link {
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            /* gap: 10px; */
+            margin-bottom: 10px;
+        }
+
+        /* Tombol dashboard dan lain di sidebar */
+        .sidebar .btn,
+        .sidebar .accordion-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar .btn {
+            padding: 10px 12px 10px 16px; /* agar icon-teks menengah */
+            font-size: 1rem;
+        }
+
+        /* Accordion header lebih branded */
+        .accordion-header {
+            margin-bottom: 0;
+        }
+
+        /* Tambahan pemisah section via border halus */
+        .sidebar .accordion-item:not(:last-child) {
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        /* Icon styling lebih stabil */
+        .bi {
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+
+        /* Responsive submenu gap */
+        @media (max-width: 991px) {
+            .sidebar .accordion-item {
+                margin-bottom: 2px;
+            }
+            .submenu .nav-link {
+                margin-bottom: 8px;
+                font-size: 0.98rem;
+            }
+        }
+
         /* Mobile menu toggle */
         .mobile-menu-toggle {
             position: fixed;
@@ -48,6 +111,9 @@ include_once 'db.php';
         
         /* Main content area */
         .main-content {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* isi minimal penuh layar */
             margin-left: var(--sidebar-width);
             padding: 20px;
             transition: margin-left 0.3s ease;
@@ -66,20 +132,21 @@ include_once 'db.php';
             transition: transform 0.3s ease;
         }
         
+        
         .accordion-button:not(.collapsed)::after {
             transform: rotate(180deg);
         }
         
-        .submenu a {
+        /* .submenu a {
             font-size: 0.9rem;
             padding-left: 2rem;
-        }
+        } */
         
         /* Profile section */
         .profile-section {
             text-align: center;
             margin-bottom: 40px;
-            padding-bottom: 35px;
+            padding-bottom: 3px;
             border-bottom: 1px solid #eee;
         }
         
@@ -90,7 +157,14 @@ include_once 'db.php';
             object-fit: cover;
             margin: 0 auto 10px;
         }
-        
+        a.nav-link{
+            color: #333;
+            text-decoration: none;
+            /* padding: 10px 15px; */
+            border-bottom: 1px solid #eee;
+            display: block;
+        }
+
         /* Dashboard cards */
         .dashboard-card {
             background: white;
@@ -120,12 +194,12 @@ include_once 'db.php';
         
         /* Iframe styling */
         .content-iframe {
-            width: 100%;
-            height: calc(100vh - 150px);
-            border: none;
-            border-radius: 8px;
-            background: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+             flex: 1; /* dorong footer ke bawah */
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         
         /* Responsive adjustments */
@@ -169,8 +243,11 @@ include_once 'db.php';
             padding: 15px;
             text-align: center;
             border-top: 1px solid #eee;
-            margin-top: 20px;
+            margin-bottom: 0;
             font-size: 0.85rem;
+        }
+        .accordion-header{
+            padding: 0 !important;
         }
     </style>
 </head>
@@ -183,16 +260,16 @@ include_once 'db.php';
 <!-- Sidebar -->
 <div class="sidebar">
     <div class="profile-section">
-        <img src="https://media.canva.com/v2/image-resize/format:JPG/height:800/quality:92/uri:ifs%3A%2F%2FM%2Fec183fca-6320-486a-b040-5112c98da034/watermark:F/width:738?csig=AAAAAAAAAAAAAAAAAAAAAHToxb60bACl3EDuqIXaDsHkQmOI4CP-2r90dRPGwvoy&exp=1755206252&osig=AAAAAAAAAAAAAAAAAAAAAPbNvuMzvOjqIYNE6fdzTBJX_oXL0kxqoOoazoeXlYMv&signer=media-rpc&x-canva-quality=screen" alt="Profil" class="profile-img">
+        <img src="width_738.jpg" alt="Profil" class="profile-img">
         <p class="fw-bold mt-2">Profil</p>
     </div>
 
     <!-- Dashboard -->
-    <div class="mb-2">
+    <!-- <div class="mb-2">
         <a class="btn w-100 text-start btn-primary" href="home.php" target="main_frame">
             <i class="bi bi-house-door me-2"></i> Dashboard
         </a>
-    </div>
+    </div> -->
 
     <!-- Accordion Menu -->
     <div class="accordion" id="menuAccordion">
@@ -210,9 +287,9 @@ include_once 'db.php';
                     $result = $conn->query($sql);
                     if ($result && $result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            echo '<a class="nav-link" href="list_siswa.php?kelas=' . urlencode($row['id']) . '" target="main_frame">
-                                <i class="bi bi-arrow-right-circle me-2"></i>' . htmlspecialchars($row['nama_kelas']) .
-                            '</a>';
+                            echo '<a class="nav-link d-flex align-items-center mb-2" href="list_siswa.php?kelas=' . urlencode($row['id']) . '" target="main_frame">
+                                <i class="bi bi-arrow-right-circle me-2"></i><span>' . htmlspecialchars($row['nama_kelas']) . '</span>
+                            </a>';
                         }
                     } else {
                         echo '<span class="nav-link text-muted">Tidak ada data</span>';
@@ -233,7 +310,7 @@ include_once 'db.php';
                 <div class="accordion-body submenu">
                     <a class="nav-link" href="spp/input_sekben1.php" target="main_frame"><i class="bi bi-cash-stack me-2"></i> Pemasukan SPP</a>
                     <a class="nav-link" href="spp/input_pengeluaran_spp.php" target="main_frame"><i class="bi bi-credit-card-2-back me-2"></i> Input Pengeluaran SPP</a>
-                    <a class="nav-link" href="list_sekben1.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> Lihat List Sekben I</a>
+                    <a class="nav-link" href="spp/list.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> Lihat List Sekben I</a>
                 </div>
             </div>
         </div>
@@ -247,15 +324,17 @@ include_once 'db.php';
             </h2>
             <div id="collapseSekben2" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
                 <div class="accordion-body submenu">
-                    <a class="nav-link" href="input_sekben2.php" target="main_frame"><i class="bi bi-cash-coin me-2"></i> Pemasukan DU/B</a>
-                    <a class="nav-link" href="pengeluaran_sekben2.php" target="main_frame"><i class="bi bi-cart-dash me-2"></i> Pengeluaran Event</a>
-                    <a class="nav-link" href="list_sekben2.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> Lihat List Sekben II</a>
+                    <a class="nav-link" href="./du/input_du1.php" target="main_frame"><i class="bi bi-cash-coin me-2"></i>daftar ulang</a>
+                     <a class="nav-link" href="./db/input_db.php" target="main_frame"><i class="bi bi-cash-coin me-2"></i>daftar baru</a>
+                    <a class="nav-link" href="db/list.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> Lihat List Sekben DB</a>
+                    <a class="nav-link" href="du/list.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> Lihat List Sekben DU</a>
+
                 </div>
             </div>
         </div>
 
         <!-- TU -->
-        <div class="accordion-item">
+        <!-- <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTU">
                     <i class="bi bi-building-fill"></i> TU
@@ -269,7 +348,7 @@ include_once 'db.php';
                     <a class="nav-link" href="absen_guru.php" target="main_frame"><i class="bi bi-clipboard-check me-2"></i> Absen Guru</a>
                 </div>
             </div>
-        </div>
+        </div> -->
         
         <!-- Data Guru -->
         <div class="accordion-item">
@@ -319,8 +398,8 @@ include_once 'db.php';
 
 <!-- Main Content -->
 <div class="main-content">
-    <h3 class="fw-bold mb-4">Dashboard</h3>
-    
+    <!-- <h3 class="fw-bold mb-4">Dashboard</h3>
+     -->
    
    
   <!-- Content Area -->
