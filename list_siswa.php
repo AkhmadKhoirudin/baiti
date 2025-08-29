@@ -63,9 +63,11 @@ if ($kelas_id) {
                             <td><?= htmlspecialchars($siswa['nama']) ?></td>
                             <td><?= htmlspecialchars($siswa['nama_kelas'] ?? 'Tanpa Kelas') ?></td>
                             <td>
-                               <span class="badge <?= $siswa['status'] === 'Aktif' ? 'bg-success' : 'bg-secondary' ?>">
-                                <?= htmlspecialchars($siswa['status']) ?>
+                             <span class="badge <?= strtolower($siswa['status']) === 'aktif' ? 'bg-success' : 'bg-secondary' ?>">
+                                 <?= htmlspecialchars($siswa['status']) ?>
                             </span>
+
+                       
                         </td>
                         <td>
                             <a href="edit_siswa.php?nik=<?= urlencode($siswa['NIK']) ?>" class="btn btn-sm btn-warning">Edit</a>

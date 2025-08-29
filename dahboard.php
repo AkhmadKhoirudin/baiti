@@ -145,17 +145,18 @@ include_once 'db.php';
         /* Profile section */
         .profile-section {
             text-align: center;
+            margin-top: 10px;
             margin-bottom: 40px;
             padding-bottom: 3px;
             border-bottom: 1px solid #eee;
         }
         
         .profile-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            width: 100px;
+            height: 110px;
+            /* border-radius: 50%; */
             object-fit: cover;
-            margin: 0 auto 10px;
+            /* margin: 0 auto 10px; */
         }
         a.nav-link{
             color: #333;
@@ -261,7 +262,7 @@ include_once 'db.php';
 <div class="sidebar">
     <div class="profile-section">
         <img src="width_738.jpg" alt="Profil" class="profile-img">
-        <p class="fw-bold mt-2">Profil</p>
+        <p class="fw-bold mt-2">AL-MUQOYYIM</p>
     </div>
 
     <!-- Dashboard -->
@@ -359,8 +360,8 @@ include_once 'db.php';
             </h2>
             <div id="collapseGuru" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
                 <div class="accordion-body submenu">
-                    <a class="nav-link" href="input_guru.php" target="main_frame"><i class="bi bi-plus-circle me-2"></i> Input Guru</a>
-                    <a class="nav-link" href="list_guru.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> List Guru</a>
+                    <a class="nav-link" href="guru/input_guru.php" target="main_frame"><i class="bi bi-plus-circle me-2"></i> Input Guru</a>
+                    <a class="nav-link" href="guru/list_guru.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> List Guru</a>
                 </div>
             </div>
         </div>
@@ -369,13 +370,13 @@ include_once 'db.php';
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAbsensi">
-                    <i class="bi bi-calendar-check"></i> Absensi Siswa
+                    <i class="bi bi-calendar-check"></i> Absensi guru
                 </button>
             </h2>
             <div id="collapseAbsensi" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
                 <div class="accordion-body submenu">
-                    <a class="nav-link" href="absen.php" target="main_frame"><i class="bi bi-plus-circle me-2"></i> Input Absensi</a>
-                    <a class="nav-link" href="list_absensi.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> Laporan Absensi</a>
+                    <a class="nav-link" href="guru/absen_guru.php" target="main_frame"><i class="bi bi-plus-circle me-2"></i> Input Absensi</a>
+                    <a class="nav-link" href="guru/report_absenguru.php" target="main_frame"><i class="bi bi-list-ul me-2"></i> Laporan Absensi</a>
                 </div>
             </div>
         </div>
@@ -389,7 +390,12 @@ include_once 'db.php';
             </h2>
             <div id="collapseLaporan" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
                 <div class="accordion-body submenu">
-                    <a class="nav-link" href="laporan_harian.php" target="main_frame"><i class="bi bi-calendar-day me-2"></i> Laporan Harian</a>
+                    <a class="nav-link" href="tu/export_absenguru_excel.php" target="main_frame"><i class="bi bi-calendar-day me-2"></i> Laporan absen dan gaji</a>
+                </div>
+            </div>
+            <div id="collapseLaporan" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
+                <div class="accordion-body submenu">
+                    <a class="nav-link" href="tu/laporan_spp_excel.php" target="main_frame"><i class="bi bi-calendar-day me-2"></i> Laporan SPP Harian</a>
                 </div>
             </div>
         </div>
