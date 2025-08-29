@@ -119,7 +119,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Fetch students for dropdown
 $students = [];
-$student_stmt = $conn->query("SELECT NIK, nama, kelas, tahun_masuk FROM siswa");
+$student_stmt = $conn->query("SELECT s.NIK, s.nama, s.tahun_masuk, k.nama_kelas 
+                              FROM siswa s 
+                              LEFT JOIN kelas k ON s.kelas = k.id");
+
 while ($student = $student_stmt->fetch_assoc()) {
     $students[] = $student;
 }
@@ -140,13 +143,17 @@ while ($student = $student_stmt->fetch_assoc()) {
         <div class="mb-3">
             <label for="siswa_nik" class="form-label">Siswa</label>
             <select class="form-select" id="siswa_nik" name="siswa_nik">
-                <option value="">Pilih Siswa</option>
-                <?php foreach ($students as $student): ?>
-                    <option value="<?= htmlspecialchars($student['NIK']) ?>" <?= ($siswa_nik == $student['NIK']) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($student['nama']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+    <option value="">Pilih Siswa</option>
+    <?php foreach ($students as $student): ?>
+        <option value="<?= htmlspecialchars($student['NIK']) ?>" 
+            data-kelas="<?= htmlspecialchars($student['nama_kelas']) ?>" 
+            data-tahun="<?= htmlspecialchars($student['tahun_masuk']) ?>"
+            <?= ($siswa_nik == $student['NIK']) ? 'selected' : '' ?>>
+            <?= htmlspecialchars($student['nama']) ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+
         </div>
         <div class="mb-3">
             <label for="nama_kelas" class="form-label">Kelas</label>
@@ -179,22 +186,10 @@ while ($student = $student_stmt->fetch_assoc()) {
         $('#siswa_nik').select2();
 
         $('#siswa_nik').on('change', function() {
-            var nik = $(this).val();
-            if (nik) {
-                $.ajax({
-                    url: 'get_siswa_data.php',
-                    type: 'GET',
-                    data: {nik: nik},
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.error) {
-                            alert(data.error);
-                        } else {
-                            $('#nama_kelas').val(data.nama_kelas);
-                            $('#tahun_ajaran').val(data.tahun_masuk);
-                        }
-                    }
-                });
+            let option = $(this).find(':selected');
+            if (option.val()) {
+                $('#nama_kelas').val(option.data('kelas'));
+                $('#tahun_ajaran').val(option.data('tahun'));
             } else {
                 $('#nama_kelas').val('');
                 $('#tahun_ajaran').val('');
@@ -205,9 +200,9 @@ while ($student = $student_stmt->fetch_assoc()) {
 
         // format input biaya
         $('#biaya_spp_display').on('input', function() {
-            let angka = $(this).val().replace(/[^0-9]/g, ''); // hanya angka
-            $('#biaya_spp').val(angka); // hidden untuk DB
-            $(this).val(formatRupiah(angka)); // tampil ke user
+            let angka = $(this).val().replace(/[^0-9]/g, '');
+            $('#biaya_spp').val(angka);
+            $(this).val(formatRupiah(angka));
         });
 
         function formatRupiah(angka) {
