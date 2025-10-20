@@ -1,0 +1,68 @@
+<?php
+include_once '../db.php';
+
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    $stmt = $conn->prepare("SELECT * FROM guru WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $guru = $stmt->get_result()->fetch_assoc();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id     = intval($_POST['id']);
+    $nama   = $_POST['nama'] ?? '';
+    $mapel  = $_POST['mapel'] ?? '';
+    $no_hp  = $_POST['no_hp'] ?? '';
+    $alamat = $_POST['alamat'] ?? '';
+    $gaji = $_POST['gaji'] ?? '';
+
+    $stmt = $conn->prepare("UPDATE guru SET nama = ?, mapel = ?, no_hp = ?, alamat = ?, gaji = ? WHERE id = ?");
+    $stmt->bind_param("sssssi", $nama, $mapel, $no_hp, $alamat, $gaji, $id);
+    $stmt->execute();
+
+    header("Location: list_guru.php?status=sukses");
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Guru</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3>Edit Guru</h3>
+        <form method="POST">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($guru['id']) ?>">
+            <div class="mb-3">
+                <label for="nama" class="form-label">Nama</label>
+                <input type="text" name="nama" id="nama" class="form-control" value="<?= htmlspecialchars($guru['nama']) ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="mapel" class="form-label">Mapel</label>
+                <input type="text" name="mapel" id="mapel" class="form-control" value="<?= htmlspecialchars($guru['mapel']) ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="no_hp" class="form-label">No HP</label>
+                <input type="text" name="no_hp" id="no_hp" class="form-control" value="<?= htmlspecialchars($guru['no_hp']) ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="alamat" class="form-label">Alamat</label>
+                <input type="text" name="alamat" id="alamat" class="form-control" value="<?= htmlspecialchars($guru['alamat']) ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="gaji" class="form-label">Gaji</label>
+                <input type="number" name="gaji" id="gaji" class="form-control" value="<?= htmlspecialchars($guru['gaji']) ?>" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
